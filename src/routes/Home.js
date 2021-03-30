@@ -2,6 +2,8 @@ import React from "react";
 import { useQuery, gql } from '@apollo/client';
 import styled from "styled-components";
 
+import Movie from '../components/Movie';
+
 const GET_MOVIES = gql`
   {
     movies {
@@ -47,7 +49,7 @@ const Loading = styled.div`
 
 export default () => {
     const { loading, data } = useQuery(GET_MOVIES);
-    console.log(loading, data);
+    
     return (
         <Container>
             <Header>
@@ -55,6 +57,10 @@ export default () => {
                 <Subtitle>I love GraphQL</Subtitle>
             </Header>
             {loading && <Loading>Loading...</Loading>}
+            {!loading && data.movies && data.movies.map(movie =>
+                <Movie key={movie.id} id={movie.id} />
+            )}
+            {/* {!loading && data.movies && data.movies.map(m => <Movie key={m.id} id={m.id} />)} */}
         </Container>
     )
 };
